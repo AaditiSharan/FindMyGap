@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FindMyGap — Instant Resume-to-Job Description Skill Gap & Compatibility Analyzer</title>
+    <meta name="description"
+        content="Identify skill gaps instantly. Score your resume against any job description, detect missing competencies, and get actionable tailoring bullets — 100% client-side privacy." />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+        rel="stylesheet" />
+
+    <!-- FontAwesome 6.5 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" />
+
+    <!-- PDF.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
+    <!-- Tesseract.js -->
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+    <!-- ═══════════════════ NAVBAR ═══════════════════ -->
+    <nav class="navbar">
+        <div class="section navbar-inner">
+            <!-- Brand -->
+            <a href="#" class="nav-brand">
+                <div class="nav-brand-icon"><i class="fa-solid fa-crosshairs"></i></div>
+                <span class="nav-brand-name">FindMyGap</span>
+            </a>
+
+            <!-- Links -->
+            <ul class="nav-links">
+                <li><a href="#workspace">Gap Analyzer</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#steps">How it Works</a></li>
+            </ul>
+
+            <!-- Actions -->
+            <div class="nav-actions">
+                <button id="startAuditBtn" class="btn-primary"><i class="fa-solid fa-magnifying-glass-chart"
+                        style="font-size:.7rem;"></i> Analyze Resume</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ═══════════════════ HERO ═══════════════════ -->
+    <section class="hero">
+        <div class="section hero-grid">
+            <!-- Left -->
+            <div>
+                <h1>Instant Resume-to-Job Description <span>Skill Gap</span> Analyzer</h1>
+                <p class="hero-sub">Upload your resume and a target job description — FindMyGap instantly identifies
+                    missing competencies, scores your compatibility, and generates actionable tailoring bullets.
+                    Supports
+                    PDF, image OCR, and text input.</p>
+                <div class="hero-btns">
+                    <button id="startAuditHero" class="btn-cta-big"
+                        onclick="document.getElementById('workspace').scrollIntoView({behavior:'smooth'})">
+                        <i class="fa-solid fa-bolt"></i> Analyze My Resume
+                    </button>
+                </div>
+            </div>
+
+            <!-- Right Visual -->
+            <div class="hero-visual">
+                <!-- Floating cards -->
+                <div class="hero-float-card" style="top:15%;left:8%;z-index:2;">
+                    <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.5rem;">
+                        <div
+                            style="width:2rem;height:2rem;border-radius:.5rem;background:#dcfce7;display:flex;align-items:center;justify-content:center;">
+                            <i class="fa-solid fa-check" style="color:#16a34a;font-size:.7rem;"></i>
+                        </div>
+                        <div>
+                            <div style="font-size:.72rem;font-weight:700;color:#0f172a;">Match Score</div>
+                            <div style="font-size:1.1rem;font-weight:900;color:#16a34a;">87%</div>
+                        </div>
+                    </div>
+                    <div style="display:flex;gap:.3rem;flex-wrap:wrap;">
+                        <span
+                            style="font-size:.58rem;padding:.18rem .45rem;border-radius:9999px;background:#dcfce7;color:#166534;font-weight:600;">Python</span>
+                        <span
+                            style="font-size:.58rem;padding:.18rem .45rem;border-radius:9999px;background:#dcfce7;color:#166534;font-weight:600;">GAAP</span>
+                        <span
+                            style="font-size:.58rem;padding:.18rem .45rem;border-radius:9999px;background:#dcfce7;color:#166534;font-weight:600;">AWS</span>
+                        <span
+                            style="font-size:.58rem;padding:.18rem .45rem;border-radius:9999px;background:#dcfce7;color:#166534;font-weight:600;">Excel</span>
+                    </div>
+                </div>
+
+                <div class="hero-float-card" style="top:42%;right:5%;z-index:3;">
+                    <div style="display:flex;align-items:center;gap:.55rem;">
+                        <div
+                            style="width:1.8rem;height:1.8rem;border-radius:.45rem;background:#dcfce7;display:flex;align-items:center;justify-content:center;">
+                            <i class="fa-solid fa-star" style="color:#16a34a;font-size:.7rem;"></i>
+                        </div>
+                        <div>
+                            <div style="font-size:.68rem;font-weight:700;color:#0f172a;">Top Strengths</div>
+                            <div style="font-size:.62rem;color:#64748b;max-width:140px;line-height:1.4;">Financial
+                                Modeling, SQL, Tableau, Six Sigma</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hero-float-card" style="bottom:12%;left:18%;z-index:2;">
+                    <div style="display:flex;align-items:center;gap:.55rem;">
+                        <div
+                            style="width:1.8rem;height:1.8rem;border-radius:.45rem;background:#ffe4e6;display:flex;align-items:center;justify-content:center;">
+                            <i class="fa-solid fa-triangle-exclamation" style="color:#e11d48;font-size:.65rem;"></i>
+                        </div>
+                        <div>
+                            <div style="font-size:.68rem;font-weight:700;color:#0f172a;">Identified Gaps</div>
+                            <div style="display:flex;gap:.25rem;margin-top:.2rem;">
+                                <span
+                                    style="font-size:.55rem;padding:.15rem .4rem;border-radius:9999px;background:#ffe4e6;color:#9f1239;font-weight:600;">SAP</span>
+                                <span
+                                    style="font-size:.55rem;padding:.15rem .4rem;border-radius:9999px;background:#ffe4e6;color:#9f1239;font-weight:600;">Power
+                                    BI</span>
+                                <span
+                                    style="font-size:.55rem;padding:.15rem .4rem;border-radius:9999px;background:#ffe4e6;color:#9f1239;font-weight:600;">DCF</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════ WORKSPACE ═══════════════════ -->
+    <section id="workspace" class="workspace-section">
+        <div class="section">
+            <div class="workspace-header">
+                <h2>Skill Gap Analysis Workspace</h2>
+                <p>Upload or paste your resume and a target job description — then let FindMyGap score, compare, and
+                    identify gaps.</p>
+            </div>
+
+            <div class="workspace-grid">
+                <!-- Left: Resume -->
+                <div class="workspace-card">
+                    <div class="wc-header">
+                        <div class="wc-title">
+                            <span class="step-tag">1</span>
+                            <i class="fa-solid fa-file-lines" style="color:#0d5c52;"></i>
+                            Candidate Resume
+                        </div>
+                        <div class="wc-counter">
+                            <span id="resumeWords">0</span> words · <span id="resumeChars">0</span> chars
+                        </div>
+                    </div>
+
+                    <!-- Input Mode Tabs -->
+                    <div class="input-tabs">
+                        <button class="input-tab active" data-target="resume" data-mode="text"><i
+                                class="fa-solid fa-keyboard"></i> Text</button>
+                        <button class="input-tab" data-target="resume" data-mode="pdf"><i
+                                class="fa-solid fa-file-pdf"></i> PDF</button>
+                        <button class="input-tab" data-target="resume" data-mode="image"><i
+                                class="fa-solid fa-image"></i> Image OCR</button>
+                    </div>
+
+                    <!-- Dropzone -->
+                    <div id="resumeDropzone" class="dropzone hidden">
+                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                        <p>Drag & drop or <span class="dropzone-browse">browse files</span></p>
+                        <span class="dropzone-formats"></span>
+                        <input type="file" id="resumeFileInput" class="dropzone-input" />
+                        <div id="resumeOcrStatus" class="ocr-status hidden">
+                            <div class="spinner"></div>
+                            <span></span>
+                        </div>
+                    </div>
+
+                    <textarea id="resumeArea" class="input-area" rows="16"
+                        placeholder="Paste your full resume text here — skills, experience, education…"></textarea>
+                </div>
+
+                <!-- Right: JD -->
+                <div class="workspace-card">
+                    <div class="wc-header">
+                        <div class="wc-title">
+                            <span class="step-tag">2</span>
+                            <i class="fa-solid fa-briefcase" style="color:#0284c7;"></i>
+                            Target Job Description
+                        </div>
+                        <div style="display:flex;align-items:center;gap:.4rem;">
+                            <div class="extract-dot"></div>
+                            <span class="wc-counter">Auto-extracting keywords</span>
+                        </div>
+                    </div>
+
+                    <!-- Input Mode Tabs -->
+                    <div class="input-tabs">
+                        <button class="input-tab active" data-target="jd" data-mode="text"><i
+                                class="fa-solid fa-keyboard"></i> Text</button>
+                        <button class="input-tab" data-target="jd" data-mode="pdf"><i class="fa-solid fa-file-pdf"></i>
+                            PDF</button>
+                        <button class="input-tab" data-target="jd" data-mode="image"><i class="fa-solid fa-image"></i>
+                            Image OCR</button>
+                    </div>
+
+                    <!-- Dropzone -->
+                    <div id="jdDropzone" class="dropzone hidden">
+                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                        <p>Drag & drop or <span class="dropzone-browse">browse files</span></p>
+                        <span class="dropzone-formats"></span>
+                        <input type="file" id="jdFileInput" class="dropzone-input" />
+                        <div id="jdOcrStatus" class="ocr-status hidden">
+                            <div class="spinner"></div>
+                            <span></span>
+                        </div>
+                    </div>
+
+                    <textarea id="jdArea" class="input-area" rows="16"
+                        placeholder="Paste the target job description here — responsibilities, requirements, qualifications…"></textarea>
+                    <div class="wc-counter" style="text-align:right;margin-top:.45rem;">
+                        <span id="jdWords">0</span> words · <span id="jdChars">0</span> chars
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scan Button -->
+            <div class="scan-btn-wrap">
+                <button id="analyzeBtn" class="btn-cta-big animate-pulse-glow"
+                    style="font-size:1rem;padding:1rem 2.8rem;">
+                    <i class="fa-solid fa-bolt"></i> Run Skill Gap &amp; Compatibility Audit
+                </button>
+            </div>
+
+            <!-- Validation -->
+            <p id="validationMsg" class="validation-msg hidden">
+                <i class="fa-solid fa-triangle-exclamation"></i> Please add content to both fields before scanning.
+            </p>
+        </div>
+    </section>
+
+    <!-- ═══════════════════ RESULTS ═══════════════════ -->
+    <section id="results" class="hidden results-section">
+        <div class="section">
+
+            <!-- Score Banner -->
+            <div class="score-banner animate-fade-up">
+                <!-- Gauge -->
+                <div class="gauge-wrap">
+                    <svg width="160" height="160" viewBox="0 0 160 160">
+                        <circle class="gauge-track" cx="80" cy="80" r="70"></circle>
+                        <circle id="gaugeBar" class="gauge-ring gauge-bar" cx="80" cy="80" r="70"></circle>
+                    </svg>
+                    <div class="gauge-label">
+                        <span id="scoreValue"
+                            style="font-size:2.4rem;font-weight:900;font-family:'JetBrains Mono',monospace;color:#0f172a;">0%</span>
+                        <span
+                            style="font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#94a3b8;">Match
+                            Score</span>
+                    </div>
+                </div>
+
+                <!-- Meta -->
+                <div style="flex:1;min-width:220px;">
+                    <div style="display:flex;flex-wrap:wrap;align-items:center;gap:.65rem;margin-bottom:.65rem;">
+                        <h2 style="font-size:1.15rem;font-weight:800;color:#0f172a;">Compatibility Score</h2>
+                        <span id="statusBadge" class="status-badge"></span>
+                    </div>
+                    <p id="scoreSummary"
+                        style="font-size:.82rem;color:#64748b;line-height:1.7;max-width:28rem;margin-bottom:1rem;"></p>
+                    <div
+                        style="display:flex;flex-wrap:wrap;gap:1.25rem;font-size:.75rem;color:#94a3b8;font-weight:600;">
+                        <span><i class="fa-solid fa-check-double" style="color:#16a34a;margin-right:.3rem;"></i> <strong
+                                style="color:#0f172a;" id="metaMatched">0</strong> Matched</span>
+                        <span><i class="fa-solid fa-xmark" style="color:#e11d48;margin-right:.3rem;"></i> <strong
+                                style="color:#0f172a;" id="metaMissing">0</strong> Missing</span>
+                        <span><i class="fa-solid fa-list" style="color:#94a3b8;margin-right:.3rem;"></i> <strong
+                                style="color:#0f172a;" id="metaTotal">0</strong> JD Keywords</span>
+                    </div>
+                </div>
+
+                <!-- Sub Metrics -->
+                <div class="sub-metrics">
+                    <div class="metric-row">
+                        <div class="metric-header">
+                            <span><i class="fa-solid fa-microchip"
+                                    style="margin-right:.3rem;color:#0d5c52;"></i>Technical Skills Alignment</span>
+                            <span id="techPct">0%</span>
+                        </div>
+                        <div class="metric-bar-bg">
+                            <div id="techBar" class="metric-bar-fill" style="width:0;"></div>
+                        </div>
+                    </div>
+                    <div class="metric-row">
+                        <div class="metric-header">
+                            <span><i class="fa-solid fa-users" style="margin-right:.3rem;color:#7c3aed;"></i>Soft
+                                Skills Coverage</span>
+                            <span id="softPct">0%</span>
+                        </div>
+                        <div class="metric-bar-bg">
+                            <div id="softBar" class="metric-bar-fill purple" style="width:0;"></div>
+                        </div>
+                    </div>
+                    <div class="metric-row">
+                        <div class="metric-header">
+                            <span><i class="fa-solid fa-signal" style="margin-right:.3rem;color:#d97706;"></i>Keyword
+                                Density</span>
+                            <span id="densPct">0%</span>
+                        </div>
+                        <div class="metric-bar-bg">
+                            <div id="densBar" class="metric-bar-fill amber" style="width:0;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Keyword Breakdown -->
+            <div class="keyword-grid">
+                <div class="keyword-card animate-fade-up anim-delay-1" style="opacity:0;">
+                    <h3
+                        style="font-size:.82rem;font-weight:700;color:#166534;display:flex;align-items:center;gap:.45rem;margin-bottom:1rem;">
+                        <i class="fa-solid fa-circle-check" style="color:#16a34a;"></i> Matched Competencies
+                        <span style="color:#94a3b8;font-weight:500;font-size:.72rem;">(Found in Resume)</span>
+                    </h3>
+                    <div id="matchedPills" class="stagger" style="display:flex;flex-wrap:wrap;gap:.4rem;"></div>
+                    <p id="matchedEmpty" class="hidden" style="font-size:.75rem;color:#94a3b8;font-style:italic;">No
+                        matched keywords found.</p>
+                </div>
+                <div class="keyword-card animate-fade-up anim-delay-2" style="opacity:0;">
+                    <h3
+                        style="font-size:.82rem;font-weight:700;color:#9f1239;display:flex;align-items:center;gap:.45rem;margin-bottom:1rem;">
+                        <i class="fa-solid fa-circle-xmark" style="color:#e11d48;"></i> Identified Skill Gaps
+                        <span style="color:#94a3b8;font-weight:500;font-size:.72rem;">(Required by JD)</span>
+                    </h3>
+                    <div id="missingPills" class="stagger" style="display:flex;flex-wrap:wrap;gap:.4rem;"></div>
+                    <p id="missingEmpty" class="hidden" style="font-size:.75rem;color:#94a3b8;font-style:italic;">No
+                        missing keywords — excellent coverage!</p>
+                </div>
+            </div>
+
+            <!-- Insights -->
+            <div class="panel-card animate-fade-up anim-delay-3" style="opacity:0;">
+                <h3
+                    style="font-size:.85rem;font-weight:700;color:#0f172a;display:flex;align-items:center;gap:.5rem;margin-bottom:1rem;">
+                    <i class="fa-solid fa-lightbulb" style="color:#d97706;"></i> Gap Audit Insights
+                </h3>
+                <div id="insightsWrap" style="display:grid;gap:.6rem;"></div>
+            </div>
+
+            <!-- Tailoring -->
+            <div class="panel-card animate-fade-up anim-delay-4" style="opacity:0;">
+                <h3
+                    style="font-size:.85rem;font-weight:700;color:#0f172a;display:flex;align-items:center;gap:.5rem;margin-bottom:.4rem;">
+                    <i class="fa-solid fa-wand-magic-sparkles" style="color:#0d5c52;"></i> Actionable Tailoring Bullets
+                    — Copy &amp; Paste Ready
+                </h3>
+                <p style="font-size:.72rem;color:#94a3b8;margin-bottom:1rem;">Auto-generated bullet points incorporating
+                    missing keywords into achievement-style phrasing.</p>
+                <div id="tailoringWrap" style="display:grid;gap:.6rem;"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════ BENTO FEATURES ═══════════════════ -->
+    <section id="features" class="bento-section">
+        <div class="section">
+            <h2>Everything FindMyGap Does For You</h2>
+            <p>A focused, privacy-first skill gap analyzer — no fluff, no unsupported promises.</p>
+
+            <div class="bento-grid">
+                <!-- 1 Mint -->
+                <div class="bento-card" style="background:var(--card-mint-bg);border-color:var(--card-mint-border);">
+                    <div class="bento-icon" style="background:rgba(5,150,105,.1);color:var(--card-mint-icon);"><i
+                            class="fa-solid fa-file-import"></i></div>
+                    <h3>Multi-Format Ingestion</h3>
+                    <p>Upload PDFs, paste text, or snap a photo of your resume — FindMyGap supports PDF parsing,
+                        Tesseract OCR, and direct text input.</p>
+                </div>
+                <!-- 2 Sky -->
+                <div class="bento-card" style="background:var(--card-sky-bg);border-color:var(--card-sky-border);">
+                    <div class="bento-icon" style="background:rgba(2,132,199,.1);color:var(--card-sky-icon);"><i
+                            class="fa-solid fa-magnifying-glass-chart"></i></div>
+                    <h3>Real-Time Skill Gap Detection</h3>
+                    <p>Instantly detect every missing competency between your resume and the job description,
+                        categorized
+                        by technical and soft skills.</p>
+                </div>
+                <!-- 3 Indigo -->
+                <div class="bento-card"
+                    style="background:var(--card-indigo-bg);border-color:var(--card-indigo-border);">
+                    <div class="bento-icon" style="background:rgba(79,70,229,.1);color:var(--card-indigo-icon);"><i
+                            class="fa-solid fa-bullseye"></i></div>
+                    <h3>Compatibility Scoring Engine</h3>
+                    <p>Get a real-time 0–100% match score with sub-metrics for technical skills alignment, soft skills
+                        coverage, and keyword density.</p>
+                </div>
+                <!-- 4 Amber -->
+                <div class="bento-card" style="background:var(--card-amber-bg);border-color:var(--card-amber-border);">
+                    <div class="bento-icon" style="background:rgba(217,119,6,.1);color:var(--card-amber-icon);"><i
+                            class="fa-solid fa-chart-bar"></i></div>
+                    <h3>Keyword Density &amp; Frequency Audit</h3>
+                    <p>Analyze how often critical keywords appear in your resume versus the job description, ensuring
+                        optimal keyword saturation.</p>
+                </div>
+                <!-- 5 Lavender -->
+                <div class="bento-card"
+                    style="background:var(--card-lavender-bg);border-color:var(--card-lavender-border);">
+                    <div class="bento-icon" style="background:rgba(124,58,237,.1);color:var(--card-lavender-icon);"><i
+                            class="fa-solid fa-wand-magic-sparkles"></i></div>
+                    <h3>Actionable Tailoring Bullets</h3>
+                    <p>Get 3 high-impact, copy-paste-ready bullet point suggestions that weave missing keywords into
+                        achievement-style phrasing.</p>
+                </div>
+                <!-- 6 Cyan -->
+                <div class="bento-card" style="background:var(--card-cyan-bg);border-color:var(--card-cyan-border);">
+                    <div class="bento-icon" style="background:rgba(8,145,178,.1);color:var(--card-cyan-icon);"><i
+                            class="fa-solid fa-shield-halved"></i></div>
+                    <h3>100% Client-Side Privacy</h3>
+                    <p>All processing happens in your browser. Zero data storage, zero server uploads — your resume
+                        never leaves your device.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════ 3-STEP TIMELINE ═══════════════════ -->
+    <section id="steps" class="steps-section">
+        <div class="section">
+            <h2>Find Your Gaps in 3 Simple Steps</h2>
+            <p class="steps-sub">Upload, analyze, and optimize — all within seconds, entirely in your browser.</p>
+
+            <div class="steps-grid">
+                <!-- Step 1 -->
+                <div class="step-card">
+                    <div class="step-num">01</div>
+                    <h3>Upload Your Resume</h3>
+                    <p>Paste text, upload a PDF, or snap a photo — we support any format with built-in OCR and PDF
+                        parsing.</p>
+                    <span class="step-connector"><i class="fa-solid fa-chevron-right"></i></span>
+                </div>
+                <!-- Step 2 -->
+                <div class="step-card">
+                    <div class="step-num">02</div>
+                    <h3>FindMyGap Analyzes</h3>
+                    <p>Our engine detects missing skills, scores role compatibility, and generates tailored improvement
+                        suggestions in real time.</p>
+                    <span class="step-connector"><i class="fa-solid fa-chevron-right"></i></span>
+                </div>
+                <!-- Step 3 -->
+                <div class="step-card">
+                    <div class="step-num">03</div>
+                    <h3>Bridge Gaps &amp; Apply</h3>
+                    <p>Copy actionable bullets, fill your skill gaps, and apply with a resume that's optimized for the
+                        role you want.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════ FOOTER ═══════════════════ -->
+    <footer class="footer">
+        <div class="section footer-inner">
+            <span>&copy; 2026 FindMyGap. Built for smarter job applications.</span>
+            <span><i class="fa-solid fa-shield-halved" style="margin-right:.3rem;"></i> 100% client-side processing —
+                your data never leaves your browser.</span>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

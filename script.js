@@ -29,7 +29,7 @@ const KEYWORD_DICT = {
         'audit', 'compliance', 'regulatory compliance',
         'anti-money laundering', 'aml', 'kyc', 'know your customer',
     ],
-
+    // The above part has the list of skills for financial accounting 
     /* ── ERP & Enterprise Tools ── */
     erp_enterprise: [
         'sap', 'sap fico', 'sap mm', 'sap sd', 'sap hana', 'sap bw',

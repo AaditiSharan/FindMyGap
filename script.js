@@ -488,18 +488,19 @@ const STOP_WORDS = new Set([
 function stem(word) {
     if (word.length <= 3) return word;
     return word
+        .replace(/ies$/i, 'y')  //studies - study
         .replace(/ies$/i, 'y')
-        .replace(/ies$/i, 'y')
-        .replace(/(ss)$/i, '$1')
-        .replace(/s$/i, '')
-        .replace(/ing$/i, '')
-        .replace(/ment$/i, '')
-        .replace(/tion$/i, 't')
+        .replace(/(ss)$/i, '$1')  // is ends with ss - no change
+        .replace(/s$/i, '')   // skills become skill
+        .replace(/ing$/i, '') //coding - cod
+        .replace(/ment$/i, '') //development - develop
+        .replace(/tion$/i, 't') // creation - creat
         .replace(/sion$/i, 's')
         .replace(/ness$/i, '')
         .replace(/able$/i, '')
         .replace(/ible$/i, '')
-        .replace(/ful$/i, '')
+        .replace(/ful$/i, '')  // helpful - help
+
         .replace(/ous$/i, '')
         .replace(/ive$/i, '')
         .replace(/ly$/i, '')
@@ -513,8 +514,8 @@ function stem(word) {
 // ──────────────────────────────────────────────────────
 function normalize(text) {
     return text
-        .toLowerCase()
-        .replace(/[\r\n]+/g, ' ')
+        .toLowerCase() //syntax of replace : .replace(what_To_find, what_to_replace_With)
+        .replace(/[\r\n]+/g, ' ') 
         .replace(/[\u2018\u2019]/g, "'")
         .replace(/[\u201C\u201D]/g, '"')
         .replace(/[^\w\s./#&+\-]/g, ' ')

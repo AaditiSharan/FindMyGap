@@ -6,9 +6,9 @@
 
 /* ── Design Tokens ── */
 :root {
-    --white: #ffffff;
-    --bg-ambient: #f4fcfa;
-    --bg-mint: #eafaf7;
+    --white: #ffffffd6;
+    --bg-ambient: #e2f2b8da;
+    --bg-mint: #bceee4dc;
     --bg-page: #fafcfb;
 
     --teal-900: #0a4d46;
